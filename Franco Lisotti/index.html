@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>TP4 - Franco Lisotti </title>
+</head>
+
+<body>
+    <div id="app">
+        <h3>Ha cargado un total de {{total}} personas.</h3>
+        <input type="text" v-model="persona.nombre" placeholder="Nombre">
+        <input type="number" v-model="persona.edad" placeholder="Edad">
+        <br>
+        <input type="radio" value="Femenino" v-model="persona.sexo">
+        <label for="one">Femenino</label>
+        <input type="radio" value="Masculino" v-model="persona.sexo">
+        <label for="two">Masculino</label>
+        <br>
+        <button @click="agregar()">Agregar</button>
+        <hr>
+        <span>Filtrar por sexo:</span>
+        <select @change="filtrarSexo" v-model="filtroSexo">
+            <option value="Ambos">Ambos</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+        </select>
+        <ul>
+            <li v-for="(persona, index) in personas" :key="index" v-if="persona.sexo == filtroSexo || filtroSexo == 'Ambos'">
+                {{persona.nombre}} - {{persona.edad}} - {{persona.sexo}}
+                <button @click="borrarPersona(persona.id)">Borrar</button>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    new Vue({
+        el: "#app",
+        data: {
+            idInicial: 0,
+            personas: [],
+            persona: {
+                nombre: "",
+                edad: "",
+                sexo: ""
+            },
+            filtroSexo: "Ambos"
+        },
+        computed: {
+            total() {
+                return this.personas.length;
+            }
+        },
+        methods: {
+            agregar() {
+                if (this.persona.nombre && this.persona.edad > 0 && this.persona.edad < 100 && this.persona.sexo) {
+                    this.personas.push({
+                        id: this.idInicial++,
+                        nombre: this.persona.nombre,
+                        edad: this.persona.edad,
+                        sexo: this.persona.sexo
+                    });
+                    this.persona.nombre = "";
+                    this.persona.edad = "";
+                    this.persona.sexo = "";
+
+                } else {
+                    alert('Formulario incorrecto');
+                }
+            },
+
+            borrarPersona(id) {
+                this.personas = this.personas.filter(persona => persona.id !== id);
+            },
+
+            filtrarSexo() {
+                filtroSexo: this.filtroSexo
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>
