@@ -19,6 +19,7 @@
 </template>
 <script>
     import PersonService from '@/services/personService'
+    import router from '../router.js'
 
     export default {
         name: "fl-form",
@@ -54,7 +55,7 @@
                         PersonService.addOne(this.person.name, this.person.age, this.person.sex);
                     } else {
                         PersonService.updateOne(this.person);
-                        router.push("fl-form");
+                        router.push("/list");
                     }
                     this.person.name = "";
                     this.person.age = 0;
