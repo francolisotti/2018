@@ -1,39 +1,34 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/form">Agregar usuario</router-link> |
-      <router-link to="/">Lista de usuarios</router-link>      
-    </div>
+    <el-menu mode="horizontal">
+      <el-menu-item index>
+        <router-link to="/">Lista de usuarios</router-link>
+      </el-menu-item>
+      <el-menu-item index="2">
+        <router-link to="/form">Agregar usuario</router-link>
+      </el-menu-item>
+    </el-menu>
     <router-view></router-view>
   </div>
 </template>
 <script>
   export default {
-    name: 'app',
+    name: "app",
     data() {
-      return {}
+      return {};
     }
-  }
+  };
 </script>
 <style>
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   }
 
-  #nav {
-    padding: 30px;
-  }
-
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
-  #nav a.router-link-exact-active {
-    color: #42b983;
+  a {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 </style>

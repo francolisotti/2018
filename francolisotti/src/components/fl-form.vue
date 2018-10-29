@@ -1,20 +1,34 @@
 <template>
     <div id="fl-form">
-        <h4>Ingresar nueva persona</h4>
-        <h5>Nombre</h5>
-        <input type="text" placeholder="Nombre" v-model="person.name" id="nombre" value="">
-        <h5>Edad</h5>
-        <input type="number" placeholder="Edad" v-model="person.age" id="age" value=0>
-        <h5>Sexo</h5>
-        <select id="sex" v-model="person.sex">
-            <option selected="selected" value="Sexo" disabled>Sexo</option>
-            <option value="Femenino">Femenino</option>
-            <option value="Masculino">Masculino</option>
-        </select>
-        <div v-if="errors.length" v-for="error in errors" :key="error">
-            <br>{{ error }}
-        </div>
-        <br><br><button @click="agregar()">{{btn}}</button><br><br>
+        
+        <el-form label-position="left" label-width="200px">
+            <el-form-item label="Nombre">
+                <el-input type="text" placeholder="Nombre" v-model="person.name" id="nombre" value=""></el-input>
+            </el-form-item>
+            <el-form-item label="Edad">
+                <el-input type="number" placeholder="Edad" v-model="person.age" id="age" value=0></el-input>
+            </el-form-item>
+            <el-form-item label="Sexo">
+                <el-select id="sex" v-model="person.sex">
+                    <el-option selected value="Sexo" disabled></el-option>
+                    <el-option value="Femenino">Femenino</el-option>
+                    <el-option value="Masculino">Masculino</el-option>
+                </el-select>
+            </el-form-item>
+
+            <div v-if="errors.length" v-for="error in errors" :key="error">
+                <br>
+                <el-alert title="" type="error">{{error}}
+                </el-alert>
+            </div>
+            <div v-if="successes.length" v-for="success in successes" :key="success">
+                <br>
+                <el-alert title="" type="success">{{success}}
+                </el-alert>
+            </div>
+            <br><br>
+            <el-button type="primary" @click="agregar()">{{btn}}</el-button><br><br>
+        </el-form>
     </div>
 </template>
 <script>
@@ -30,9 +44,10 @@
                     id: 0,
                     name: "",
                     age: 0,
-                    sex: "Sexo"
+                    sex: "Elija sexo"
                 },
-                errors: []
+                errors: [],
+                successes: []
             }
         },
         beforeMount() {
@@ -41,21 +56,24 @@
         methods: {
             agregar() {
                 this.errors = [];
-                if ((this.person.age > 150 || this.person.age < 0)) {
+                this.successes = [];
+                if ((this.person.age > 120 || this.person.age < 0)) {
                     this.errors.push("Edad invalida");
                 }
                 if (this.person.name == "") {
                     this.errors.push("Ingrese nombre");
                 }
-                if (this.person.sex == "Sexo") {
+                if (this.person.sex == "Elija sexo") {
                     this.errors.push("Elija sexo");
                 }
                 if (this.errors.length == 0) {
                     if (this.btn == "Agregar") {
                         PersonService.addOne(this.person.name, this.person.age, this.person.sex);
+                        this.successes.push("Persona agregada correctamente");
+
                     } else {
                         PersonService.updateOne(this.person);
-                        router.push("/list");
+                        router.push("/");
                     }
                     this.person.name = "";
                     this.person.age = 0;
@@ -78,3 +96,10 @@
         }
     }
 </script>
+<style>
+    #fl-form {
+        text-align: right;
+        width: 400px;
+        margin-top: 10px
+    }
+</style>

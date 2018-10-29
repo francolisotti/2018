@@ -1,19 +1,26 @@
 <template>
-  <div class="list">
-    <select id="filter" @change="filterChanged" class="pointer">
-      <option value="Ambos" selected>Ambos</option>
-      <option value="Femenino">Femenino</option>
-      <option value="Masculino">Masculino</option>
-    </select>
-    <div v-if="filteredPeople.length">
-      <ul id="li" v-for="person in filteredPeople" :key="person.id">
-        Nombre: {{ person.name }} - Edad: {{ person.age }} - Sexo: {{ person.sex }}
-        <button>
-          <router-link :to="{ name: 'update', params: { id: person.id }}">Editar</router-link>
-        </button> -
-        <button class="button" @click="deletePerson(person.id)">Borrar</button>
-      </ul>
-    </div>
+  <div id="list">
+    <span class="demo-input-label">Filtrar </span>
+    <el-select id="filter" @change="filterChanged" class="pointer" value="Ambos">
+      <el-option value="Femenino">Femenino</el-option>
+      <el-option value="Masculino">Masculino</el-option>
+    </el-select>
+    <el-table v-if="filteredPeople.length" :data="filteredPeople">
+      <el-table-column prop="name" label="Nombre" width="180">
+      </el-table-column>
+      <el-table-column prop="sex" label="Sexo" width="180">
+      </el-table-column>
+      <el-table-column prop="age" label="Edad">
+      </el-table-column>
+      <el-table-column label="Operaciones">
+        <template slot-scope="scope">
+          <el-button type=primary>
+            <router-link :to="{ name: 'update', params: { id: scope.row.id }}"><i class="el-icon-edit"></i></router-link>
+          </el-button>
+          <el-button type=primary @click="deletePerson(scope.row.id)"><i class="el-icon-delete"></i></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <div v-else>
       <p>Lista vacía</p>
     </div>
@@ -21,15 +28,15 @@
 </template>
 
 <script>
-  import PersonService from '@/services/personService'
+  import PersonService from "@/services/personService";
 
   export default {
-    name: 'list',
+    name: "list",
     data() {
       return {
         filter: "Ambos",
         people: []
-      }
+      };
     },
     computed: {
       filteredPeople: function () {
@@ -37,7 +44,9 @@
         if (this.filter === "Ambos") {
           filteredPeople = this.people;
         } else {
-          filteredPeople = this.people.filter(person => person.sex === this.filter);
+          filteredPeople = this.people.filter(
+            person => person.sex === this.filter
+          );
         }
         return filteredPeople;
       }
@@ -50,18 +59,34 @@
         this.people = PersonService.deleteOne(id);
       },
       filterChanged(event) {
-        this.filter = event.target.value
+        this.filter = event;
       }
     }
-  }
+  };
 </script>
 <style>
-  ul {
-    list-style-position: inside;
+  #list {
+    margin-top: 10px;
   }
 
-  a {
+  a:visited {
     text-decoration: none;
-    color: black
+    color: #fff;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  a:focus {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: #fff
   }
 </style>
