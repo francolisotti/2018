@@ -1,9 +1,10 @@
 <template>
   <div id="list">
     <span class="demo-input-label">Filtrar </span>
-    <el-select id="filter" @change="filterChanged" class="pointer" value="Ambos">
-      <el-option value="Femenino">Femenino</el-option>
-      <el-option value="Masculino">Masculino</el-option>
+    <el-select v-model="filter" @change="filterChanged" placeholder="Sexo" value="Ambos">
+      <el-option label="Ambos" value="Ambos"></el-option>
+      <el-option label="Femenino" value="Femenino"></el-option>
+      <el-option label="Masculino" value="Masculino"></el-option>
     </el-select>
     <el-table v-if="filteredPeople.length" :data="filteredPeople">
       <el-table-column prop="name" label="Nombre" width="180">
@@ -21,9 +22,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <div v-else>
-      <p>Lista vacía</p>
-    </div>
+    <p v-else>Lista vacía</p>
+
   </div>
 </template>
 
