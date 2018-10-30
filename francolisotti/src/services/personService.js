@@ -1,7 +1,8 @@
-let lastId = 0;
+let lastId = JSON.parse(localStorage.getItem('lastId')) || 0;
 
 function save(people){
   localStorage.setItem('people', JSON.stringify(people));
+  localStorage.setItem('lastId', JSON.stringify(lastId));
 }
 
 export default {
@@ -23,12 +24,11 @@ export default {
   addOne(name, age, sex) {
     let people = this.getAll();
     people.push({
-      id: lastId,
+      id: ++lastId,
       name: name,
       age: age,
       sex: sex
     });
-    ++lastId;
     save(people);
   },
 

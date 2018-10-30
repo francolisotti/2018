@@ -15,9 +15,7 @@
       </el-table-column>
       <el-table-column label="Operaciones">
         <template slot-scope="scope">
-          <el-button type=primary>
-            <router-link :to="{ name: 'update', params: { id: scope.row.id }}"><i class="el-icon-edit"></i></router-link>
-          </el-button>
+          <el-button type=primary @click="updatePerson(scope.row.id)"><i class="el-icon-edit"></i></el-button>
           <el-button type=primary @click="deletePerson(scope.row.id)"><i class="el-icon-delete"></i></el-button>
         </template>
       </el-table-column>
@@ -29,7 +27,7 @@
 
 <script>
   import PersonService from "@/services/personService";
-
+  import router from '../router.js';
   export default {
     name: "list",
     data() {
@@ -60,6 +58,17 @@
       },
       filterChanged(event) {
         this.filter = event;
+      },
+      updatePerson(id) {
+        /*<el-button type=primary>
+           <router-link :to="{ name: 'update', params: { id: scope.row.id }}"><i class="el-icon-edit"></i></router-link>
+         </el-button>*/
+        router.push({
+          name: 'update',
+          params: {
+            id: id
+          }
+        })
       }
     }
   };
